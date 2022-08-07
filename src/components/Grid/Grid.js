@@ -1,63 +1,42 @@
-import { findEventsForDate, toStartOfDay } from "../utils";
+import { findEventsForDate } from "../utils";
 import MiniEvent from "../MiniEvent/MiniEvent";
 import moment from "moment-jalaali";
 
-const Grid = ({
-  date,
-  events,
-  setViewingEvent,
-  setShowingEventForm,
-  actualDate,
-}) => {
-  const ROWS_COUNT = 6;
-  const now = moment()
-  const currentDate = toStartOfDay(now.format("jYYYY jMM jDD"));
-  const persianDate = moment(date);
-  let startingMonth = moment(persianDate).startOf("jMonth");
-
-  let startingDate = moment(startingMonth).startOf("jWeek").day(-1);
+const Grid = ({ date, events, setViewingEvent, triger }) => {
+  const ROWS_COUNT = triger !== "month" ? 1 : 6;
+  const COLS_COUNT = triger === "day" ? 1 : 7;
+  const now = moment().format();
+  let startingMonth = moment(date);
+  const monthlyFunc = (date) => {
+    if (triger !== "week") {
+      startingMonth = moment(date).startOf("jMonth");
+    }
+    if (startingMonth.startOf("jWeek").day() !== 6 && triger !== "day") {
+      startingMonth = startingMonth.startOf("jWeek").day(-1);
+    }
+    return startingMonth;
+  };
+  let baseOnTriger = monthlyFunc(date);
   const dates = [];
-  for (let i = 0; i < ROWS_COUNT * 7; i++) {
-    const date = moment(startingDate);
+  for (let i = 0; i < ROWS_COUNT * COLS_COUNT; i++) {
+    const date = moment(baseOnTriger);
     dates.push({ date, events: findEventsForDate(events, date) });
-    startingDate = moment(startingDate).add(1, "day");
+    baseOnTriger = moment(baseOnTriger).add(1, "day");
   }
   return (
     <>
-      {dates.map((date, index) => {
-        const persianDate = moment(date.date).format("jYYYY jMM jDD");
-        const startMonth = moment(actualDate).startOf("jMonth");
-        const endMonth = moment(actualDate).endOf("jMonth");
-        const Y = startMonth.subtract(1, "day")
+      {dates.map((dateObj, index) => {
+        const inMonth =
+          moment(dateObj.date).format("jM") === moment(date).format("jM");
         return (
           <div
             key={index}
-           className={`cell ${
-            moment(persianDate).isSame(currentDate, "day")
-                ? "current"
-                : ""
-            } ${
-              !moment(date.date).isBetween(Y, endMonth)
-                ? "otherMonth"
-                : ""
-            }`}
+            className={`cell ${
+              moment(dateObj.date).isSame(now, "day") ? "current" : ""
+            } ${!inMonth ? "otherMonth" : ""}`}
           >
-            <div className="date">
-              {moment(date.date).format("jDD")}
-              {/* <a
-                href="javascript:;"
-                className="addEventOnDay"
-                onClick={() =>
-                  setShowingEventForm({
-                    visible: true,
-                    preselectedDate: date.date,
-                  })
-                }
-              >
-                +
-              </a> */}
-            </div>
-            {date.events.map((event, index) => (
+            <div className="date">{moment(dateObj.date).format("jDD jMM")}</div>
+            {dateObj.events.map((event, index) => (
               <MiniEvent
                 key={index}
                 event={event}

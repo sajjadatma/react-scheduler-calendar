@@ -7,10 +7,11 @@ import Navigation from "./Navigation/Navigation";
 import DayLabels from "./DayLables/DayLabels";
 import Grid from "./Grid/Grid";
 import EventForm from "./EventForm/EventForm";
-const Calendar = ({ month, year, preloadedEvents = [] }) => {
-  const selectedDate = new Date(year, month - 1);
-
+import moment from "moment-jalaali";
+const Calendar = ({ preloadedEvents = [] }) => {
+  const selectedDate = moment().format();
   const [date, setDate] = useState(selectedDate);
+  const [triger, setTriger] = useState("month");
   const [viewingEvent, setViewingEvent] = useState(false);
   const [showingEventForm, setShowingEventForm] = useState({ visible: false });
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }) => {
     // So whenever the calendar month is toggled,
     // make a request and populate `events` with the
     // new results
-
+    
     // Would be better to cache these results so you
     // don't make needless network requests
     // So you could maintain an array of `date`s
@@ -78,7 +79,7 @@ const Calendar = ({ month, year, preloadedEvents = [] }) => {
 
     setTimeout(() => {
       const updatedEvents = [...events].filter(
-        (finalEvent) => finalEvent.id != event.id
+        (finalEvent) => finalEvent.id !== event.id
       );
 
       setEvents(updatedEvents);
@@ -99,22 +100,32 @@ const Calendar = ({ month, year, preloadedEvents = [] }) => {
       {isLoading && <Loader />}
 
       {feedback && <Feedback message={feedback.message} type={feedback.type} />}
-
+      <div style={{ display: "flex" }}>
+        <button onClick={() => setTriger("day")}>روزانه</button>
+        <button onClick={() => setTriger("week")}>هفتگی</button>
+        <button onClick={() => setTriger("month")}>ماهانه</button>
+      </div>
       <Navigation
         date={date}
         setDate={setDate}
         setShowingEventForm={setShowingEventForm}
+        triger={triger}
       />
-
-      <DayLabels />
-
-      <Grid
-        date={date}
-        events={events}
-        setShowingEventForm={setShowingEventForm}
-        setViewingEvent={setViewingEvent}
-        actualDate={date}
-      />
+      <div className="main">
+        <div className="weeksLable">
+          <DayLabels triger={triger} date={date} />
+        </div>
+        <div className="days">
+          <Grid
+            date={date}
+            events={events}
+            setShowingEventForm={setShowingEventForm}
+            setViewingEvent={setViewingEvent}
+            actualDate={date}
+            triger={triger}
+          />
+        </div>
+      </div>
 
       {viewingEvent && (
         <Event

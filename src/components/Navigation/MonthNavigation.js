@@ -1,37 +1,23 @@
-import { MONTHS } from "../utils";
-import moment from "moment-jalaali";
-const MonthNavigation = ({date, setDate}) => {
+import {
+  nextMonth,
+  nextStep,
+  previousStep,
+  setTitle,
+  previousMonth,
+} from "./utils";
+const MonthNavigation = ({ date, setDate, triger }) => {
+  // month show
+  const title = setTitle(date,triger);
+  const nextMonthTitle = nextMonth(date, triger);
+  const previousMonthTitle = previousMonth(date,triger);
   return (
     <>
-      {" "}
-      <div
-        className="back"
-        onClick={() => {
-          let newDate = moment(date);
-          newDate = newDate.subtract(1, "month").toDate();
-          setDate(newDate);
-        }}
-      >
-        {"<-"} {MONTHS[moment(date).subtract(1, "month").format("jM") - 1]}
+      <div className="back" onClick={() => previousStep(date, triger, setDate)}>
+        {previousMonthTitle}
       </div>
-      <div className="monthAndYear">
-        {MONTHS[moment(date).format("jMM") - 1]} {moment(date).format("jYYYY")}
-        {/* <a
-      href="javascript:;"
-      onClick={() => setShowingEventForm({ visible: true })}
-    >
-      +
-    </a> */}
-      </div>
-      <div
-        className="forward"
-        onClick={() => {
-          let newDate = moment(date);
-          newDate = newDate.add(1, "month").toDate();
-          setDate(newDate);
-        }}
-      >
-        {MONTHS[moment(date).add(1, "month").format("jM") - 1]} {"->"}
+      <div className="monthAndYear">{title}</div>
+      <div className="forward" onClick={() => nextStep(date, triger, setDate)}>
+        {nextMonthTitle}
       </div>
     </>
   );

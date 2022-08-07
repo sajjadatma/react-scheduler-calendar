@@ -20,7 +20,15 @@ export const MONTHS = [
   "اسفند",
 ];
 
-export const DAYS_SHORT = ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه"];
+export const DAYS_SHORT = [
+  "شنبه",
+  "یکشنبه",
+  "دوشنبه",
+  "سه شنبه",
+  "چهارشنبه",
+  "پنج‌شنبه",
+  "جمعه",
+];
 
 export const toStartOfDay = (date) => {
   let newDate = moment(date);
@@ -71,4 +79,8 @@ export const findEventsForDate = (events, date) => {
 
     return dateTime >= eventFromTime && dateTime <= eventToTime;
   });
+};
+
+export const startOfMonth = (date) => {
+  return moment(date).startOf("jMonth")
 };
