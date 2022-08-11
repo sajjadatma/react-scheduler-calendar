@@ -28,7 +28,7 @@ const Grid = ({ date, events, triger, setDate }) => {
         return (
           <div
             key={index}
-            className={`${triger === "day" ? `cell cell-daily` : `cell`} ${
+            className={`cell ${triger === "day" && `cell-daily`} ${triger !== "month" && "cell-week-day"} ${
               moment(dateObj.date).isSame(now, "day") ? "current" : ""
             } ${!inMonth && triger === "month" ? "otherMonth" : ""}`}
           >

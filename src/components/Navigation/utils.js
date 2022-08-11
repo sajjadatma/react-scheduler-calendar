@@ -32,7 +32,7 @@ export const setTitle = (date, triger) => {
     case "week":
       return `${startOfWeekTitle} - ${endOfWeekTitle}`;
     case "day":
-      return `${moment(date).format("jD")} ${MONTHS[moment(date).format("jM") - 1]}`;
+      return `${moment(date).format("jD")} ${MONTHS[moment(date).format("jM") - 1]} ${moment(date).format("jYYYY")}`;
     default:
       break;
   }

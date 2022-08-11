@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  parseEvents } from "./utils";
+import { parseEvents } from "./utils";
 import Navigation from "./Navigation/Navigation";
 import DayLabels from "./DayLables/DayLabels";
 import Grid from "./Grid/Grid";
@@ -25,26 +25,20 @@ const Calendar = ({ preloadedEvents = [] }) => {
     // console.log("Date has changed... Let's load some fresh data");
   }, [date]);
 
-
-
-
-
   return (
     <div className="calendar">
-      <div style={{ display: "flex" }}>
-        <button onClick={() => dailyFunc(date, setDate, setTriger)}>
-          روزانه
-        </button>
-        <button onClick={() => weeklyFunc(date, setDate, setTriger, triger)}>
-          هفتگی
-        </button>
-        <button onClick={() => setTriger("month")}>ماهانه</button>
+      <div className="header">
+        <div className="trigers">
+          <button onClick={() => dailyFunc(date, setDate, setTriger)}>
+            روزانه
+          </button>
+          <button onClick={() => weeklyFunc(date, setDate, setTriger, triger)}>
+            هفتگی
+          </button>
+          <button onClick={() => setTriger("month")}>ماهانه</button>
+        </div>
+        <Navigation date={date} setDate={setDate} triger={triger} />
       </div>
-      <Navigation
-        date={date}
-        setDate={setDate}
-        triger={triger}
-      />
       <div className="main">
         <div className="weeksLable">
           <DayLabels triger={triger} date={date} />
