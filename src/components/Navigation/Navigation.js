@@ -1,8 +1,31 @@
-import MonthNavigation from "./MonthNavigation";
-const Navigation = ({ date, setDate, triger, setShowingEventForm }) => {
+import {
+  nextMonth,
+  nextStep,
+  previousStep,
+  setTitle,
+  previousMonth,
+} from "./utils";
+const Navigation = ({ date, setDate, triger }) => {
+  const title = setTitle(date, triger);
+  const nextMonthTitle = nextMonth(date, triger);
+  const previousMonthTitle = previousMonth(date, triger);
   return (
     <div className="navigation">
-      <MonthNavigation date={date} triger={triger} setDate={setDate} />
+      <>
+        <div
+          className="back"
+          onClick={() => previousStep(date, triger, setDate)}
+        >
+          {previousMonthTitle}
+        </div>
+        <div className="monthAndYear">{title}</div>
+        <div
+          className="forward"
+          onClick={() => nextStep(date, triger, setDate)}
+        >
+          {nextMonthTitle}
+        </div>
+      </>
     </div>
   );
 };

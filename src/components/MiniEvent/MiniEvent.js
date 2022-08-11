@@ -1,10 +1,9 @@
-const MiniEvent = ({ event, setViewingEvent }) => {
+const MiniEvent = ({ event }) => {
     return (
       <div
         className={`miniEvent ${
           event.type ? event.type.toLowerCase() : "standard"
         }`}
-        onClick={() => setViewingEvent(event)}
       >
         {event.name}
       </div>

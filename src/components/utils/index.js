@@ -1,10 +1,5 @@
 import moment from "moment-jalaali";
-// Some config for convenience
-export const MOCK_LOADING_TIME = 1000;
-export const SAMPLE_META =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-// Utilities/helpers
 export const MONTHS = [
   "فروردین",
   "اردیبهشت",
@@ -36,28 +31,7 @@ export const toStartOfDay = (date) => {
   return newDate;
 };
 
-export const pad = (input) => {
-  return input < 10 ? "0" + input : input;
-};
 
-// I'm using default <input type="datepick-local">,
-// so a specific date format is required
-export const dateToInputFormat = (date) => {
-  if (!date) {
-    return null;
-  }
-
-  const month = pad(moment(date).format("MM") + 1);
-  const day = pad(moment(date).format("DD"));
-  const hours = pad(moment(date).format("HH"));
-  const minutes = pad(moment(date).format("mm"));
-
-  return `${moment(date).year()}-${month}-${day}T${hours}:${minutes}`;
-};
-
-// Could be used to filter out invalid events data also
-// (ie. missing properties) or events that can't be parsed
-// to contain valid to/from dates
 export const parseEvents = (events) => {
   return events.map((event) => {
     const from = moment(event.dateFrom).format("YYYY MM DD HH:mm:ss");

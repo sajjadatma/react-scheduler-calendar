@@ -1,7 +1,7 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Calendar from "./components/Calendar";
-import { SAMPLE_META } from "./components/utils";
+ const SAMPLE_META =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
 function App() {
   return (

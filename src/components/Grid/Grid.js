@@ -1,22 +1,19 @@
 import { findEventsForDate } from "../utils";
 import MiniEvent from "../MiniEvent/MiniEvent";
 import moment from "moment-jalaali";
+import { baseFunc } from "../utils/base";
 
-const Grid = ({ date, events, setViewingEvent, triger }) => {
+const Grid = ({ date, events, triger, setDate }) => {
   const ROWS_COUNT = triger !== "month" ? 1 : 6;
   const COLS_COUNT = triger === "day" ? 1 : 7;
   const now = moment().format();
-  let startingMonth = moment(date);
-  const monthlyFunc = (date) => {
-    if (triger !== "week") {
-      startingMonth = moment(date).startOf("jMonth");
-    }
-    if (startingMonth.startOf("jWeek").day() !== 6 && triger !== "day") {
-      startingMonth = startingMonth.startOf("jWeek").day(-1);
-    }
-    return startingMonth;
-  };
-  let baseOnTriger = monthlyFunc(date);
+  let baseOnTriger = date;
+  if (triger === "month") {
+    baseOnTriger = baseFunc(date, setDate, triger);
+  }
+  if (triger === "week" && moment(baseOnTriger).startOf("jWeek").day() !== 6) {
+    baseOnTriger = moment(baseOnTriger).startOf("jWeek").day(-1);
+  }
   const dates = [];
   for (let i = 0; i < ROWS_COUNT * COLS_COUNT; i++) {
     const date = moment(baseOnTriger);
@@ -31,16 +28,15 @@ const Grid = ({ date, events, setViewingEvent, triger }) => {
         return (
           <div
             key={index}
-            className={`cell ${
+            className={`${triger === "day" ? `cell cell-daily` : `cell`} ${
               moment(dateObj.date).isSame(now, "day") ? "current" : ""
-            } ${!inMonth ? "otherMonth" : ""}`}
+            } ${!inMonth && triger === "month" ? "otherMonth" : ""}`}
           >
-            <div className="date">{moment(dateObj.date).format("jDD jMM")}</div>
+            <div className="date">{moment(dateObj.date).format("jD")}</div>
             {dateObj.events.map((event, index) => (
               <MiniEvent
                 key={index}
                 event={event}
-                setViewingEvent={setViewingEvent}
               />
             ))}
           </div>
