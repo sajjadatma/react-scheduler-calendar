@@ -10,13 +10,22 @@ export const baseFunc = (date) => {
 
 export const weeklyFunc = (date, setDate, setTriger) => {
   setTriger("week");
-    const today = moment().format("jM");
-    const dateMonth = moment(date).format("jM");
-    let startingMonth = moment(date);
-    if (dateMonth !== today) {
-      startingMonth = moment(date).startOf("jMonth");
+  const today = moment().format("jYYYY-jMM-jDD");
+  const dateMonth = moment(date);
+  let startingMonth = moment(date);
+  startingMonth = moment(date).startOf("jMonth");
+  if (
+    moment(today).isBetween(
+      dateMonth.startOf("jMonth").format("jYYYY-jMM-jDD"),
+      dateMonth.endOf("jMonth").format("jYYYY-jMM-jDD")
+    )
+  ) {
+    startingMonth = moment().startOf("jWeek").day(-1);
+    if (moment(startingMonth).startOf("jWeek").day() !== 6) {
+      startingMonth = moment(startingMonth).startOf("jWeek").day(-1);
     }
-    setDate(startingMonth.toDate());
+  }
+  setDate(startingMonth.toDate());
 };
 
 export const dailyFunc = (date, setDate, setTriger) => {

@@ -1,26 +1,33 @@
 import moment from "moment-jalaali";
 import { MONTHS } from "../utils";
 
-
 export const previousStep = (date, triger, setDate) => {
-  const newDate = moment(date).subtract(1, triger).format();
+  const newDate = moment(date)
+    .subtract(1, triger === "month" ? "jMonth" : triger)
+    .toDate();
   setDate(newDate);
 };
 
 export const nextStep = (date, triger, setDate) => {
-  const newDate = moment(date).add(1, triger).format();
+  const newDate = moment(date).add(1, triger === "month" ? "jMonth" : triger).toDate();
   setDate(newDate);
 };
 
 // *******************************************************
 // Titles
 export const setTitle = (date, triger) => {
-  const startOfWeek = moment(date).day(-1);
+  let startOfWeek = moment(date)
+  if (startOfWeek.day() !== 6) {
+    startOfWeek = startOfWeek.startOf("jWeek").day(-1);
+  }
+  
   const startOfWeekTitle = ` ${startOfWeek.format("jD")} ${
     MONTHS[startOfWeek.format("jM") - 1]
   }`;
-  const endOfWeek = moment(date).day(5);
-  console.log(startOfWeek.format("jM jDD"));
+  let endOfWeek = moment(date).endOf("week").day(5)
+  if (moment(date).day() === 6) {
+    endOfWeek = endOfWeek.add("jWeek").day(12);
+  }
   const endOfWeekTitle = ` ${endOfWeek.format("jD")} ${
     MONTHS[endOfWeek.format("jM") - 1]
   }`;
@@ -32,7 +39,9 @@ export const setTitle = (date, triger) => {
     case "week":
       return `${startOfWeekTitle} - ${endOfWeekTitle}`;
     case "day":
-      return `${moment(date).format("jD")} ${MONTHS[moment(date).format("jM") - 1]} ${moment(date).format("jYYYY")}`;
+      return `${moment(date).format("jD")} ${
+        MONTHS[moment(date).format("jM") - 1]
+      } ${moment(date).format("jYYYY")}`;
     default:
       break;
   }
