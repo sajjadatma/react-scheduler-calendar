@@ -25,36 +25,21 @@ export const DAYS_SHORT = [
   "جمعه",
 ];
 
-export const toStartOfDay = (date) => {
-  let newDate = moment(date);
-  newDate = newDate.format("YYYY MM DD");
-  return newDate;
-};
-
-
-export const parseEvents = (events) => {
-  return events.map((event) => {
-    const from = moment(event.dateFrom).format("YYYY MM DD HH:mm:ss");
-    const to = moment(event.dateTo).format("YYYY MM DD HH:mm:ss");
-
-    return {
-      ...event,
-      from,
-      to,
-    };
-  });
-};
-
 export const findEventsForDate = (events, date) => {
-  const dateTime = moment(date).valueOf();
+  const dateTime = date.format("YYYY-MM-DD");
   return events.filter((event) => {
-    const eventFromTime = moment(toStartOfDay(event.from)).valueOf();
-    const eventToTime = moment(toStartOfDay(event.to)).valueOf();
-
-    return dateTime >= eventFromTime && dateTime <= eventToTime;
+    const eventDateFrom = moment(event.dateFrom).format("YYYY-MM-DD");
+    const eventDateTo = moment(event.dateTo).format("YYYY-MM-DD");
+    const eventToTime = moment(dateTime).isSame(eventDateFrom);
+    const eventFromTime = moment(dateTime).isSame(eventDateTo);
+    const eventFromBetween = moment(dateTime).isBetween(
+      eventDateFrom,
+      eventDateTo
+    );
+    return (
+      eventFromBetween === true ||
+      eventToTime === true ||
+      eventFromTime === true
+    );
   });
-};
-
-export const startOfMonth = (date) => {
-  return moment(date).startOf("jMonth")
 };

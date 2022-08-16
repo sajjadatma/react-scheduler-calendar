@@ -20,10 +20,7 @@ export const weeklyFunc = (date, setDate, setTriger) => {
       dateMonth.endOf("jMonth").format("jYYYY-jMM-jDD")
     )
   ) {
-    startingMonth = moment().startOf("jWeek").day(-1);
-    if (moment(startingMonth).startOf("jWeek").day() !== 6) {
-      startingMonth = moment(startingMonth).startOf("jWeek").day(-1);
-    }
+    startingMonth = moment();
   }
   setDate(startingMonth.toDate());
 };

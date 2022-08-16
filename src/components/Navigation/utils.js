@@ -1,3 +1,4 @@
+import jMoment from "moment-jalaali";
 import moment from "moment-jalaali";
 import { MONTHS } from "../utils";
 
@@ -16,18 +17,13 @@ export const nextStep = (date, triger, setDate) => {
 // *******************************************************
 // Titles
 export const setTitle = (date, triger) => {
-  let startOfWeek = moment(date)
-  if (startOfWeek.day() !== 6) {
-    startOfWeek = startOfWeek.startOf("jWeek").day(-1);
-  }
+  let startOfWeek = jMoment(date).startOf("week")
+
   
   const startOfWeekTitle = ` ${startOfWeek.format("jD")} ${
     MONTHS[startOfWeek.format("jM") - 1]
   }`;
-  let endOfWeek = moment(date).endOf("week").day(5)
-  if (moment(date).day() === 6) {
-    endOfWeek = endOfWeek.add("jWeek").day(12);
-  }
+  let endOfWeek = jMoment(date).endOf("week")
   const endOfWeekTitle = ` ${endOfWeek.format("jD")} ${
     MONTHS[endOfWeek.format("jM") - 1]
   }`;

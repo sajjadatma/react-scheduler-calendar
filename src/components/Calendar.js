@@ -1,45 +1,46 @@
 import { useEffect, useState } from "react";
-import { parseEvents } from "./utils";
 import Navigation from "./Navigation/Navigation";
 import DayLabels from "./DayLables/DayLabels";
 import Grid from "./Grid/Grid";
 import moment from "moment-jalaali";
 import { dailyFunc, weeklyFunc } from "./utils/base";
-const Calendar = ({ preloadedEvents = [] }) => {
+import jMoment from "moment-jalaali";
+import { useDate } from "../Hooks/useDate";
+const Calendar = ({ preloadedEvents = [], parentCallback, handleSubmit }) => {
+  jMoment.loadPersian({ dialect: "persian-modern" });
   const selectedDate = moment().format();
   const [date, setDate] = useState(selectedDate);
   const [triger, setTriger] = useState("month");
-  const parsedEvents = parseEvents(preloadedEvents);
-  const [events, setEvents] = useState(parsedEvents);
+  const [events] = useState(preloadedEvents);
+  const schedule = useDate(date, triger);
 
   useEffect(() => {
-    // You could retrieve fresh events data here
-    // So whenever the calendar month is toggled,
-    // make a request and populate `events` with the
-    // new results
-    // Would be better to cache these results so you
-    // don't make needless network requests
-    // So you could maintain an array of `date`s
-    // and simply consult this before you fire off
-    // any new network requests
-    // console.log("Date has changed... Let's load some fresh data");
-  }, [date]);
+    handleSubmit && handleSubmit(schedule, triger);
+  }, [schedule, triger, handleSubmit]);
 
   return (
     <div className="calendar">
-      <div className="header">
+      <div className="calendar-header">
+        <Navigation date={date} setDate={setDate} triger={triger} />
         <div className="trigers">
-          <button onClick={() => dailyFunc(date, setDate, setTriger)}>
+          <button
+            className="calendar-btn"
+            onClick={() => dailyFunc(date, setDate, setTriger)}
+          >
             روزانه
           </button>
-          <button onClick={() => weeklyFunc(date, setDate, setTriger, triger)}>
+          <button
+            className="calendar-btn"
+            onClick={() => weeklyFunc(date, setDate, setTriger, triger)}
+          >
             هفتگی
           </button>
-          <button onClick={() => setTriger("month")}>ماهانه</button>
+          <button className="calendar-btn" onClick={() => setTriger("month")}>
+            ماهانه
+          </button>
         </div>
-        <Navigation date={date} setDate={setDate} triger={triger} />
       </div>
-      <div className="main">
+      <div className="main-calendar">
         <div className="weeksLable">
           <DayLabels triger={triger} date={date} />
         </div>
@@ -50,6 +51,7 @@ const Calendar = ({ preloadedEvents = [] }) => {
             actualDate={date}
             triger={triger}
             setDate={setDate}
+            schedule={schedule}
           />
         </div>
       </div>
