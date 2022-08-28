@@ -1,3 +1,4 @@
+import React from 'react'
 import { findEventsForDate } from "../utils";
 import MiniEvent from "../MiniEvent/MiniEvent";
 import moment from "moment-jalaali";

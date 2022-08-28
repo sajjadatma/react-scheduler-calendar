@@ -1,23 +1,17 @@
+import jMoment from "moment-jalaali";
 import moment from "moment-jalaali";
 export const baseFunc = (date) => {
-  let startingMonth = moment(date);
-  startingMonth = moment(date).startOf("jMonth");
-  if (startingMonth.startOf("jWeek").day() !== 6) {
-    startingMonth = startingMonth.startOf("jWeek").day(-1);
-  }
-  return startingMonth;
+  return jMoment(date).startOf("jMonth").startOf("week");
 };
 
 export const weeklyFunc = (date, setDate, setTriger) => {
   setTriger("week");
-  const today = moment().format("jYYYY-jMM-jDD");
-  const dateMonth = moment(date);
-  let startingMonth = moment(date);
-  startingMonth = moment(date).startOf("jMonth");
+  const today = jMoment();
+  let startingMonth = jMoment(date).startOf("jMonth");
   if (
-    moment(today).isBetween(
-      dateMonth.startOf("jMonth").format("jYYYY-jMM-jDD"),
-      dateMonth.endOf("jMonth").format("jYYYY-jMM-jDD")
+    jMoment(today).isBetween(
+      jMoment(date).startOf("jMonth"),
+      jMoment(date).endOf("jMonth")
     )
   ) {
     startingMonth = moment();
