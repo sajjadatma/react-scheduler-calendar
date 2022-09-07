@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./styles/style.css";
 import { useEffect, useState } from "react";
 import Navigation from "./components/Navigation/Navigation";
@@ -7,7 +7,7 @@ import Grid from "./components/Grid/Grid";
 import moment from "moment-jalaali";
 import { dailyFunc, weeklyFunc } from "./components/utils/base";
 import jMoment from "moment-jalaali";
-import { useDate } from "./Hooks/useDate";
+import { useDate } from "./hooks/useDate";
 const Calendar = ({ preloadedEvents = [], handleSubmit }) => {
   jMoment.loadPersian({ dialect: "persian-modern" });
   const selectedDate = moment().format();
@@ -18,7 +18,7 @@ const Calendar = ({ preloadedEvents = [], handleSubmit }) => {
   const schedule = useDate(date, triger);
   useEffect(() => {
     handleSubmit && handleSubmit(schedule, triger);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triger, date]);
 
   useEffect(() => {
@@ -28,7 +28,13 @@ const Calendar = ({ preloadedEvents = [], handleSubmit }) => {
   return (
     <div className='calendar'>
       <div className='calendar-header'>
-        <Navigation date={date} setDate={setDate} triger={triger} />
+        {useMemo(
+          () => (
+            <Navigation date={date} setDate={setDate} triger={triger} />
+          ),
+          [date, triger],
+        )}
+
         <div className='trigers'>
           <button
             className={
@@ -58,14 +64,18 @@ const Calendar = ({ preloadedEvents = [], handleSubmit }) => {
           <DayLabels triger={triger} date={date} />
         </div>
         <div className='days'>
-          <Grid
-            date={date}
-            events={events}
-            actualDate={date}
-            triger={triger}
-            setDate={setDate}
-            schedule={schedule}
-          />
+          {useMemo(
+            () => (
+              <Grid
+                date={date}
+                events={events}
+                actualDate={date}
+                triger={triger}
+                setDate={setDate}
+              />
+            ),
+            [events, date, triger],
+          )}
         </div>
       </div>
     </div>

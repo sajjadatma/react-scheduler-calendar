@@ -1,5 +1,4 @@
-
-import React from 'react'
+import React from "react";
 import moment from "moment-jalaali";
 import { DAYS_SHORT } from "../utils";
 
@@ -13,11 +12,11 @@ const DayLabels = ({ date, triger }) => {
       dayOfWeek = DAYS_SHORT[0];
     }
 
-    return <div className="dayLabel cell ">{dayOfWeek}</div>;
+    return <div className='dayLabel cell '>{dayOfWeek}</div>;
   }
   return DAYS_SHORT.map((dayLabel, index) => {
     return (
-      <div className="dayLabel cell" key={index}>
+      <div className='dayLabel cell' key={index}>
         {dayLabel}
       </div>
     );

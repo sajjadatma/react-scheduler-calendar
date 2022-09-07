@@ -11,7 +11,7 @@ export const weeklyFunc = (date, setDate, setTriger) => {
   if (
     jMoment(today).isBetween(
       jMoment(date).startOf("jMonth"),
-      jMoment(date).endOf("jMonth")
+      jMoment(date).endOf("jMonth"),
     )
   ) {
     startingMonth = moment();

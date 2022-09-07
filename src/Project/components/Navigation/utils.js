@@ -1,3 +1,4 @@
+import React from "react";
 import jMoment from "moment-jalaali";
 import moment from "moment-jalaali";
 import { MONTHS } from "../utils";
@@ -10,27 +11,28 @@ export const previousStep = (date, triger, setDate) => {
 };
 
 export const nextStep = (date, triger, setDate) => {
-  const newDate = moment(date).add(1, triger === "month" ? "jMonth" : triger).toDate();
+  const newDate = moment(date)
+    .add(1, triger === "month" ? "jMonth" : triger)
+    .toDate();
   setDate(newDate);
 };
 
 // *******************************************************
 // Titles
 export const setTitle = (date, triger) => {
-  let startOfWeek = jMoment(date).startOf("week")
+  const startOfWeek = jMoment(date).startOf("week");
 
-  
   const startOfWeekTitle = ` ${startOfWeek.format("jD")} ${
     MONTHS[startOfWeek.format("jM") - 1]
   }`;
-  let endOfWeek = jMoment(date).endOf("week")
+  const endOfWeek = jMoment(date).endOf("week");
   const endOfWeekTitle = ` ${endOfWeek.format("jD")} ${
     MONTHS[endOfWeek.format("jM") - 1]
   }`;
   switch (triger) {
     case "month":
       return `${MONTHS[moment(date).format("jM") - 1]} ${moment(date).format(
-        "jYYYY"
+        "jYYYY",
       )}`;
     case "week":
       return `${startOfWeekTitle} - ${endOfWeekTitle}`;
@@ -47,13 +49,15 @@ export const setTitle = (date, triger) => {
 export const previousMonth = (date, triger) => {
   switch (triger) {
     case "month":
-      return `<- ${
-        MONTHS[moment(date).subtract(1, "jMonth").format("jM") - 1]
-      }`;
+      return (
+        <button className='calendar-btn'>{`<- ${
+          MONTHS[moment(date).subtract(1, "jMonth").format("jM") - 1]
+        }`}</button>
+      );
     case "week":
-      return `<- هفته قبل `;
+      return <button className='calendar-btn'>{"<- هفته قبل "}</button>;
     case "day":
-      return `<- روز قبل `;
+      return <button className='calendar-btn'>{"<- روز قبل "}</button>;
     default:
       break;
   }
@@ -63,11 +67,15 @@ export const previousMonth = (date, triger) => {
 export const nextMonth = (date, triger) => {
   switch (triger) {
     case "month":
-      return `${MONTHS[moment(date).add(1, "jMonth").format("jM") - 1]} ->`;
+      return (
+        <button className='calendar-btn'>
+          {`${MONTHS[moment(date).add(1, "jMonth").format("jM") - 1]} ->`}
+        </button>
+      );
     case "week":
-      return `هفته بعد ->`;
+      return <button className='calendar-btn'>{`هفته بعد ->`}</button>;
     case "day":
-      return `روز بعد ->`;
+      return <button className='calendar-btn'>{`روز بعد ->`}</button>;
     default:
       break;
   }
