@@ -1,17 +1,19 @@
 import React from "react";
-import { nextMonth, nextStep, previousStep, setTitle, previousMonth } from "./utils";
-const Navigation = ({ date, setDate, triger }) => {
-  const title = setTitle(date, triger);
-  const nextMonthTitle = nextMonth(date, triger);
-  const previousMonthTitle = previousMonth(date, triger);
+const Navigation = ({
+  previousMonthFunc,
+  previousMonthTitle,
+  title,
+  nextMonthFunc,
+  nextMonthTitle,
+}) => {
   return (
     <div className='navigation'>
       <>
-        <div className='back' onClick={() => previousStep(date, triger, setDate)}>
+        <div className='back' onClick={previousMonthFunc}>
           {previousMonthTitle}
         </div>
         <div className='monthAndYear'>{title}</div>
-        <div className='forward' onClick={() => nextStep(date, triger, setDate)}>
+        <div className='forward' onClick={nextMonthFunc}>
           {nextMonthTitle}
         </div>
       </>

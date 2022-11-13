@@ -14,7 +14,7 @@ export const MONTHS = [
   "اسفند",
 ];
 
-export const DAYS_SHORT = [
+export const daysOfWeek = [
   "شنبه",
   "یکشنبه",
   "دوشنبه",
@@ -26,8 +26,7 @@ export const DAYS_SHORT = [
 
 export const triggerForQuery = (location) => {
   if (location.fromDate !== undefined) {
-    const difference =
-      moment(location?.toDate).diff(location?.fromDate, "day") + 1;
+    const difference = moment(location?.toDate).diff(location?.fromDate, "day") + 1;
     switch (difference) {
       case 30:
         return "month";
