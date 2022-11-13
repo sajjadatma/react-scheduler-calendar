@@ -23,12 +23,12 @@ export const setTitle = (date, triger) => {
   const startOfWeek = jMoment(date).startOf("week");
 
   const startOfWeekTitle = ` ${startOfWeek.format("jD")} ${
-    MONTHS[startOfWeek.format("jM") - 1]
-  }`;
+    MONTHS[startOfWeek.format("jM") - 1] 
+  }  ${startOfWeek.format("jYYYY")}`;
   const endOfWeek = jMoment(date).endOf("week");
   const endOfWeekTitle = ` ${endOfWeek.format("jD")} ${
     MONTHS[endOfWeek.format("jM") - 1]
-  }`;
+  } ${endOfWeek.format("jYYYY")}`;
   switch (triger) {
     case "month":
       return `${MONTHS[moment(date).format("jM") - 1]} ${moment(date).format(

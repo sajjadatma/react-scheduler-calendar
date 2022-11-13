@@ -1,3 +1,4 @@
+import moment from "moment-jalaali";
 export const MONTHS = [
   "فروردین",
   "اردیبهشت",
@@ -22,3 +23,22 @@ export const DAYS_SHORT = [
   "پنج‌شنبه",
   "جمعه",
 ];
+
+export const triggerForQuery = (location) => {
+  if (location.fromDate !== undefined) {
+    const difference =
+      moment(location?.toDate).diff(location?.fromDate, "day") + 1;
+    switch (difference) {
+      case 30:
+        return "month";
+      case 31:
+        return "month";
+      case 7:
+        return "week";
+      case 1:
+        return "day";
+      default:
+        break;
+    }
+  }
+};

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import "./styles/style.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navigation from "./components/Navigation/Navigation";
 import DayLabels from "./components/DayLables/DayLabels";
 import Grid from "./components/Grid/Grid";
@@ -8,29 +8,44 @@ import moment from "moment-jalaali";
 import { dailyFunc, weeklyFunc } from "./components/utils/base";
 import jMoment from "moment-jalaali";
 import { useDate } from "./hooks/useDate";
+import {
+  nextMonth,
+  nextStep,
+  previousStep,
+  setTitle,
+  previousMonth,
+} from "./components/Navigation/utils";
+import { triggerForQuery } from "./components/utils";
+
 const Calendar = ({ preloadedEvents = [], handleSubmit }) => {
   jMoment.loadPersian({ dialect: "persian-modern" });
-  const selectedDate = moment().format();
-  const [date, setDate] = useState(selectedDate);
-
-  const [triger, setTriger] = useState("month");
-  const [events, setEvents] = useState(preloadedEvents);
+  const events = preloadedEvents;
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const location = Object.fromEntries(urlSearchParams.entries());
+  const [date, setDate] = useState(location?.fromDate || moment().format());
+  const diff = triggerForQuery(location);
+  const [triger, setTriger] = useState(diff || "month");
   const schedule = useDate(date, triger);
-  useEffect(() => {
+  useMemo(() => {
     handleSubmit && handleSubmit(schedule, triger);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triger, date]);
-
-  useEffect(() => {
-    setEvents(preloadedEvents);
-  }, [preloadedEvents]);
 
   return (
     <div className='calendar'>
       <div className='calendar-header'>
         {useMemo(
           () => (
-            <Navigation date={date} setDate={setDate} triger={triger} />
+            <Navigation
+              nextMonth={nextMonth}
+              nextStep={nextStep}
+              previousStep={previousStep}
+              setTitle={setTitle}
+              previousMonth={previousMonth}
+              date={date}
+              setDate={setDate}
+              triger={triger}
+            />
           ),
           [date, triger],
         )}
