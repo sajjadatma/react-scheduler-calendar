@@ -1,12 +1,13 @@
-@import url(https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap);
 .current .date,
 .dayLabel {
   font-weight: 700;
 }
+
 .calendar,
 .calendar-btn {
   font-family: Vazirmatn, sans-serif !important;
 }
+
 .calendar {
   text-align: center;
   direction: rtl;
@@ -15,14 +16,17 @@
   width: 100%;
   position: relative;
 }
+
 .calendar-header,
-.trigers {
+.triggers {
   align-items: center;
   display: flex;
 }
+
 .calendar a {
   color: grey;
 }
+
 .calendar-header {
   width: 100%;
   padding-top: 1rem;
@@ -31,22 +35,26 @@
 }
 
 @media screen and (max-width: 720px) {
-    .calendar-header {
-      flex-direction: column;
-    }
+  .calendar-header {
+    flex-direction: column;
   }
-.trigers {
+}
+
+.triggers {
   margin-right: 1rem;
 }
+
 .date,
 .miniEvent-title {
   font-size: 1rem;
 }
+
 .navigation {
   display: flex;
   align-items: center;
 }
-.trigers > * {
+
+.triggers > * {
   margin-left: 1rem;
 }
 .cell {

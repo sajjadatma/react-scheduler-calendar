@@ -3,33 +3,33 @@ import jMoment from "moment-jalaali";
 import moment from "moment-jalaali";
 import { MONTHS } from "../utils";
 
-export const previousStep = (date, triger, setDate) => {
+export const previousStep = (date, trigger, setDate) => {
   const newDate = moment(date)
-    .subtract(1, triger === "month" ? "jMonth" : triger)
+    .subtract(1, trigger === "month" ? "jMonth" : trigger)
     .toDate();
   setDate(newDate);
 };
 
-export const nextStep = (date, triger, setDate) => {
+export const nextStep = (date, trigger, setDate) => {
   const newDate = moment(date)
-    .add(1, triger === "month" ? "jMonth" : triger)
+    .add(1, trigger === "month" ? "jMonth" : trigger)
     .toDate();
   setDate(newDate);
 };
 
 // *******************************************************
 // Titles
-export const setTitle = (date, triger) => {
+export const setTitle = (date, trigger) => {
   const startOfWeek = jMoment(date).startOf("week");
 
   const startOfWeekTitle = ` ${startOfWeek.format("jD")} ${
-    MONTHS[startOfWeek.format("jM") - 1] 
+    MONTHS[startOfWeek.format("jM") - 1]
   }  ${startOfWeek.format("jYYYY")}`;
   const endOfWeek = jMoment(date).endOf("week");
   const endOfWeekTitle = ` ${endOfWeek.format("jD")} ${
     MONTHS[endOfWeek.format("jM") - 1]
   } ${endOfWeek.format("jYYYY")}`;
-  switch (triger) {
+  switch (trigger) {
     case "month":
       return `${MONTHS[moment(date).format("jM") - 1]} ${moment(date).format(
         "jYYYY",
@@ -46,8 +46,8 @@ export const setTitle = (date, triger) => {
 };
 // previous Month
 
-export const previousMonth = (date, triger) => {
-  switch (triger) {
+export const previousMonth = (date, trigger) => {
+  switch (trigger) {
     case "month":
       return (
         <button className='calendar-btn'>{`<- ${
@@ -64,8 +64,8 @@ export const previousMonth = (date, triger) => {
 };
 
 // next Month
-export const nextMonth = (date, triger) => {
-  switch (triger) {
+export const nextMonth = (date, trigger) => {
+  switch (trigger) {
     case "month":
       return (
         <button className='calendar-btn'>

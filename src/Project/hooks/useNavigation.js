@@ -6,15 +6,15 @@ import {
   previousMonth,
 } from "../components/Navigation/utils";
 import { dailyFunc, weeklyFunc } from "../components/utils/base";
-export const useNavigation = (date, triger, setDate, setTriger) => {
-  const title = setTitle(date, triger);
-  const nextMonthTitle = nextMonth(date, triger);
-  const previousMonthTitle = previousMonth(date, triger);
-  const previousMonthFunc = () => previousStep(date, triger, setDate);
-  const nextMonthFunc = () => nextStep(date, triger, setDate);
-  const dailyTrigger = () => dailyFunc(date, setDate, setTriger);
-  const weeklyTrigger = () => weeklyFunc(date, setDate, setTriger, triger);
-  const monthlyTrigger = () => setTriger("month");
+export const useNavigation = (date, trigger, setDate, settrigger) => {
+  const title = setTitle(date, trigger);
+  const nextMonthTitle = nextMonth(date, trigger);
+  const previousMonthTitle = previousMonth(date, trigger);
+  const previousMonthFunc = () => previousStep(date, trigger, setDate);
+  const nextMonthFunc = () => nextStep(date, trigger, setDate);
+  const dailyTrigger = () => dailyFunc(date, setDate, settrigger);
+  const weeklyTrigger = () => weeklyFunc(date, setDate, settrigger, trigger);
+  const monthlyTrigger = () => settrigger("month");
 
   return [
     title,

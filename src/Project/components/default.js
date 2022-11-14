@@ -7,7 +7,7 @@ import TriggerComponent from "./Navigation/triggerComponent";
 const DefaultComponent = ({
   date,
   title,
-  triger,
+  trigger,
   nextMonthTitle,
   previousMonthTitle,
   previousMonthFunc,
@@ -29,7 +29,7 @@ const DefaultComponent = ({
         />
         <div>
           <TriggerComponent
-            triger={triger}
+            trigger={trigger}
             dailyTrigger={dailyTrigger}
             weeklyTrigger={weeklyTrigger}
             monthlyTrigger={monthlyTrigger}
@@ -38,10 +38,10 @@ const DefaultComponent = ({
       </div>
       <div className='main-calendar'>
         <div className='weeksLable'>
-          <DayLabels triger={triger} date={date} />
+          <DayLabels trigger={trigger} date={date} />
         </div>
         <div className='days'>
-          <Grid date={date} dates={dates} triger={triger} />
+          <Grid date={date} dates={dates} trigger={trigger} />
         </div>
       </div>
     </div>

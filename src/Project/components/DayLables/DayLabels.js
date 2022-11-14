@@ -2,8 +2,8 @@ import React from "react";
 import moment from "moment-jalaali";
 import { daysOfWeek } from "../utils";
 
-const DayLabels = ({ date, triger }) => {
-  if (triger === "day") {
+const DayLabels = ({ date, trigger }) => {
+  if (trigger === "day") {
     const day = moment(date).day();
     let dayOfWeek;
     if (day !== 6) {

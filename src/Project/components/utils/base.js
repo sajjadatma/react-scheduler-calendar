@@ -4,8 +4,8 @@ export const baseFunc = (date) => {
   return jMoment(date).startOf("jMonth").startOf("week");
 };
 
-export const weeklyFunc = (date, setDate, setTriger) => {
-  setTriger("week");
+export const weeklyFunc = (date, setDate, settrigger) => {
+  settrigger("week");
   const today = jMoment();
   let startingMonth = jMoment(date).startOf("jMonth");
   if (
@@ -19,8 +19,8 @@ export const weeklyFunc = (date, setDate, setTriger) => {
   setDate(startingMonth.toDate());
 };
 
-export const dailyFunc = (date, setDate, setTriger) => {
-  setTriger("day");
+export const dailyFunc = (date, setDate, settrigger) => {
+  settrigger("day");
   const today = moment().format("jM");
   const dateMonth = moment(date).format("jM");
   let startingMonth = moment(date);

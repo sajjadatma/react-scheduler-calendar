@@ -3,7 +3,7 @@ import MiniEvent from "../MiniEvent/MiniEvent";
 import moment from "moment-jalaali";
 import { baseFunc } from "../utils/base";
 
-const Grid = ({ date, dates, triger }) => {
+const Grid = ({ date, dates, trigger }) => {
   const now = moment().format();
   return (
     <>
@@ -13,10 +13,10 @@ const Grid = ({ date, dates, triger }) => {
         return (
           <div
             key={index}
-            className={`cell ${triger === "day" && `cell-daily`} ${
-              triger !== "month" && "cell-week-day"
+            className={`cell ${trigger === "day" && `cell-daily`} ${
+              trigger !== "month" && "cell-week-day"
             } ${moment(dateObj.date).isSame(now, "day") ? "current" : ""} ${
-              !inMonth && triger === "month" ? "otherMonth" : ""
+              !inMonth && trigger === "month" ? "otherMonth" : ""
             }`}>
             <div className='date'>{moment(dateObj.date).format("jD")}</div>
             {dateObj.events.map((event, index) => (

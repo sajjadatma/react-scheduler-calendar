@@ -2,12 +2,12 @@ import jMoment from "moment-jalaali";
 import moment from "moment-jalaali";
 import { useMemo } from "react";
 import { baseFunc } from "../components/utils/base";
-export const useRenderCell = (date, triger, events, setDate) => {
-  const ROWS_COUNT = triger !== "month" ? 1 : 6;
-  const COLS_COUNT = triger === "day" ? 1 : 7;
-  let baseOnTriger = date;
-  if (triger === "month") {
-    baseOnTriger = baseFunc(date, setDate, triger);
+export const useRenderCell = (date, trigger, events, setDate) => {
+  const ROWS_COUNT = trigger !== "month" ? 1 : 6;
+  const COLS_COUNT = trigger === "day" ? 1 : 7;
+  let baseOntrigger = date;
+  if (trigger === "month") {
+    baseOntrigger = baseFunc(date, setDate, trigger);
   }
   const eventObj = {};
   useMemo(
@@ -21,20 +21,20 @@ export const useRenderCell = (date, triger, events, setDate) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [events],
   );
-  if (triger === "week" && moment(baseOnTriger).startOf("jWeek").day() !== 6) {
-    baseOnTriger = moment(baseOnTriger).startOf("jWeek").day(-1);
+  if (trigger === "week" && moment(baseOntrigger).startOf("jWeek").day() !== 6) {
+    baseOntrigger = moment(baseOntrigger).startOf("jWeek").day(-1);
   }
   const dates = [];
 
   useMemo(() => {
     for (let i = 0; i < ROWS_COUNT * COLS_COUNT; i++) {
-      const date = moment(baseOnTriger);
+      const date = moment(baseOntrigger);
       dates.push({ date, events: eventObj[date.format("YYYY-MM-DD")] || [] });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      baseOnTriger = moment(baseOnTriger).add(1, "day");
+      baseOntrigger = moment(baseOntrigger).add(1, "day");
     }
     return dates;
-  }, [events, triger, date]);
+  }, [events, trigger, date]);
 
   return [dates];
 };

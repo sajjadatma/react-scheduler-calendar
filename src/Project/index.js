@@ -7,23 +7,33 @@ import { useDate } from "./hooks/useDate";
 import { useNavigation } from "./hooks/useNavigation";
 import { useRenderCell } from "./hooks/useRenderCell";
 import DefaultComponent from "./components/default";
-import { daysOfWeek, triggerForQuery } from "./components/utils";
-const Calendar = ({ preloadedEvents = [], handleSubmit, userDate, children }) => {
+import { daysOfWeek } from "./components/utils";
+const Calendar = ({
+  preloadedEvents = [],
+  handleSubmit,
+  defaultDate,
+  children,
+  defaultTrigger,
+}) => {
   jMoment.loadPersian({ dialect: "persian-modern" });
   const events = preloadedEvents;
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  const location = Object.fromEntries(urlSearchParams.entries());
-  const diff = triggerForQuery(location);
-  const [date, setDate] = useState(moment(userDate).format() || moment().format());
+  const [date, setDate] = useState(
+    moment(defaultDate).format() || moment().format(),
+  );
   const hasChildren = children ? true : false;
-  const [triger, setTriger] = useState(diff || "month");
-  const [dates] = useRenderCell(date, triger, events, setDate);
-  const schedule = useDate(date, triger);
-  console.log(schedule);
+  const initialTirgger =
+    defaultTrigger === "day" ||
+    defaultTrigger === "week" ||
+    defaultTrigger === "month"
+      ? defaultTrigger
+      : undefined;
+  const [trigger, settrigger] = useState(initialTirgger || "month");
+  const [dates] = useRenderCell(date, trigger, events, setDate);
+  const schedule = useDate(date, trigger);
   useMemo(() => {
-    handleSubmit && handleSubmit(schedule, triger);
+    handleSubmit && handleSubmit(schedule, trigger);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triger, date]);
+  }, [trigger, date]);
   const [
     title,
     nextMonthTitle,
@@ -33,14 +43,14 @@ const Calendar = ({ preloadedEvents = [], handleSubmit, userDate, children }) =>
     dailyTrigger,
     weeklyTrigger,
     monthlyTrigger,
-  ] = useNavigation(date, triger, setDate, setTriger);
+  ] = useNavigation(date, trigger, setDate, settrigger);
   return (
     <div>
       {hasChildren ? (
         React.cloneElement(children, {
           date,
           title,
-          triger,
+          trigger,
           nextMonthTitle,
           previousMonthTitle,
           previousMonthFunc,
@@ -55,7 +65,7 @@ const Calendar = ({ preloadedEvents = [], handleSubmit, userDate, children }) =>
         <DefaultComponent
           date={date}
           title={title}
-          triger={triger}
+          trigger={trigger}
           nextMonthTitle={nextMonthTitle}
           previousMonthTitle={previousMonthTitle}
           previousMonthFunc={previousMonthFunc}
